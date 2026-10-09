@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101014">
+  <title>FF Gaming Store</title>
+  <style>
+    :root{--bg:#0b0b0f;--panel:#15151c;--red:#ff3434;--red2:#b80f20;--text:#f7f7fb;--muted:#a7a7b4;--line:#292932}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at top right,#301016 0,transparent 34%),var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+    header{position:sticky;top:0;z-index:5;background:#0b0b0fee;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .nav{max-width:1100px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{font-weight:900;letter-spacing:.5px;font-size:18px}.brand span{color:var(--red)}
+    .cart-btn,.primary,.secondary{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer}
+    .cart-btn,.primary{background:var(--red);color:white}.secondary{background:#25252f;color:white;border:1px solid #3a3a46}
+    .hero{max-width:1100px;margin:auto;padding:48px 18px 32px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+    .tag{display:inline-block;color:#ff8b8b;border:1px solid #7a2630;border-radius:99px;padding:6px 10px;font-size:12px;font-weight:800}
+    h1{font-size:clamp(34px,6vw,60px);line-height:1.02;margin:16px 0}.hero p{color:var(--muted);line-height:1.65;max-width:560px}
+    .hero-art{min-height:210px;border-radius:22px;border:1px solid #63202a;background:linear-gradient(140deg,#46121b,#17171f 65%);display:grid;place-items:center;text-align:center;padding:22px;box-shadow:0 16px 50px #0008}
+    .hero-art .fire{font-size:68px}.hero-art strong{display:block;font-size:24px;letter-spacing:3px}.hero-art small{color:#ff9999}
+    main{max-width:1100px;margin:auto;padding:12px 18px 50px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:12px 0 18px}.section-head h2{margin:0;font-size:26px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .product{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .product-art{height:130px;display:grid;place-items:center;font-size:46px;background:linear-gradient(135deg,#351018,#20202b);border-bottom:1px solid var(--line)}
+    .product-body{padding:15px;display:flex;flex-direction:column;flex:1}.product h3{margin:0 0 7px;font-size:17px}.product p{margin:0 0 15px;color:var(--muted);font-size:13px;line-height:1.5;flex:1}
+    .price{font-weight:900;font-size:18px;margin-bottom:12px}.product .primary{width:100%}
+    .notice{margin-top:22px;border:1px solid var(--line);border-radius:12px;padding:13px;color:var(--muted);font-size:12px;line-height:1.6}
+    footer{text-align:center;padding:22px 18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    .overlay{position:fixed;inset:0;background:#0009;z-index:9;display:none}.overlay.show{display:block}
+    .drawer{position:fixed;z-index:10;right:0;top:0;height:100%;width:min(420px,100%);background:#111117;border-left:1px solid var(--line);padding:20px;transform:translateX(105%);transition:transform .22s;overflow:auto}
+    .drawer.show{transform:translateX(0)}.drawer-head{display:flex;justify-content:space-between;align-items:center}.drawer h2{margin:0}
+    .close{background:#292932;color:white;border:0;border-radius:9px;padding:8px 12px;font-size:18px}
+    .cart-item{display:grid;grid-template-columns:1fr auto;gap:10px;padding:15px 0;border-bottom:1px solid var(--line)}.cart-item small{display:block;color:var(--muted);margin-top:5px}
+    .qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{background:#292932;color:white;border:0;border-radius:6px;padding:5px 9px}
+    .remove{background:transparent;color:#ff8a8a;border:0;margin-top:6px;padding:0}
+    .total{display:flex;justify-content:space-between;font-weight:900;font-size:19px;margin:18px 0}
+    label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px}input,textarea{width:100%;background:#20202a;color:white;border:1px solid #3a3a46;border-radius:9px;padding:12px;font:inherit}textarea{resize:vertical;min-height:70px}
+    .checkout{width:100%;margin-top:12px}.empty{color:var(--muted);text-align:center;padding:32px 0}
+    @media(max-width:720px){.hero{grid-template-columns:1fr;padding-top:34px}.hero-art{min-height:160px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.product-art{height:100px;font-size:38px}.product-body{padding:12px}.product h3{font-size:15px}.price{font-size:16px}}
+    @media(max-width:400px){.grid{grid-template-columns:1fr}.product{display:grid;grid-template-columns:90px 1fr}.product-art{height:100%;min-height:150px;border-bottom:0;border-right:1px solid var(--line)}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">🔥 FF <span>GAMING STORE</span></div>
+      <button class="cart-btn" id="openCart">🛒 Keranjang (<span id="cartCount">0</span>)</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <span class="tag">DIGITAL GAMING GOODS</span>
+      <h1>LEVEL UP.<br><span style="color:var(--red)">PLAY SMART.</span></h1>
+      <p>Toko digital untuk kebutuhan kreator dan komunitas gaming. Pilih produk, masukkan ke keranjang, lalu kirim pesanan melalui WhatsApp.</p>
+      <button class="primary" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Lihat Produk ↓</button>
+    </div>
+    <div class="hero-art"><div><div class="fire">🔥</div><strong>FF STORE</strong><small>GAMING • DESIGN • DIGITAL</small></div></div>
+  </section>
+
+  <main id="catalog">
+    <div class="section-head"><div><h2>Katalog Produk</h2><p>Pilih produk digital yang kamu butuhkan.</p></div></div>
+    <div class="grid" id="productGrid"></div>
+    <div class="notice">⚠️ Toko independen untuk produk digital legal. Tidak berafiliasi dengan Garena atau Free Fire. Pastikan produk yang kamu jual memiliki izin dan tidak melanggar aturan platform.</div>
+  </main>
+  <footer>© <span id="year"></span> FF Gaming Store • Dibuat untuk komunitas gaming</footer>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Keranjang belanja">
+    <div class="drawer-head"><h2>Keranjang</h2><button class="close" id="closeCart" aria-label="Tutup">✕</button></div>
+    <div id="cartItems"></div>
+    <div class="total"><span>Total</span><span id="total">Rp0</span></div>
+    <label for="buyerName">Nama pemesan</label><input id="buyerName" placeholder="Nama kamu" maxlength="80">
+    <label for="buyerNote">Catatan (opsional)</label><textarea id="buyerNote" placeholder="Contoh: warna merah-hitam"></textarea>
+    <button class="primary checkout" id="checkout">Checkout via Telegram</button>
+    <p style="font-size:12px;color:var(--muted);line-height:1.5">Detail pesanan disalin agar bisa kamu tempel ke chat Telegram admin. Admin mengonfirmasi ketersediaan dan metode pembayaran secara manual.</p>
+  </aside>
+
+<script>
+  // GANTI nomor di bawah dengan nomor WhatsApp admin (kode negara 62, tanpa tanda +).
+  const TELEGRAM_ADMIN = "ZereneXe";
+
+  // Edit daftar produk ini sesuai produk legal yang kamu jual.
+  const products = [
+    {id:1,name:"Desain Avatar Gaming",desc:"Avatar profil dengan tema gaming sesuai permintaan.",price:10000,icon:"🎭"},
+    {id:2,name:"Banner Gaming",desc:"Banner untuk profil atau komunitas gaming.",price:15000,icon:"🖼️"},
+    {id:3,name:"Thumbnail Video",desc:"Thumbnail custom untuk video gaming.",price:15000,icon:"🎬"},
+    {id:4,name:"Paket Overlay Stream",desc:"Elemen visual untuk konten streaming.",price:25000,icon:"🎮"},
+    {id:5,name:"Wallpaper Gaming",desc:"Wallpaper HP dengan desain pilihanmu.",price:8000,icon:"📱"},
+    {id:6,name:"Logo Tim Esports",desc:"Konsep logo tim gaming buatan khusus.",price:30000,icon:"⚡"}
+  ];
+  const cart = {};
+  const rupiah = n => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
+  const productGrid = document.getElementById("productGrid");
+  const cartItems = document.getElementById("cartItems");
+  const drawer = document.getElementById("drawer");
+  const overlay = document.getElementById("overlay");
+
+  function renderProducts(){
+    productGrid.innerHTML = products.map(p => `
+      <article class="product">
+        <div class="product-art" aria-hidden="true">${p.icon}</div>
+        <div class="product-body">
+          <h3>${p.name}</h3><p>${p.desc}</p>
+          <div class="price">${rupiah(p.price)}</div>
+          <button class="primary" onclick="addToCart(${p.id})">+ Tambah</button>
+        </div>
+      </article>`).join("");
+  }
+  function addToCart(id){cart[id]=(cart[id]||0)+1;renderCart();openDrawer();}
+  function changeQty(id,delta){cart[id]=(cart[id]||0)+delta;if(cart[id]<=0)delete cart[id];renderCart();}
+  function totalItems(){return Object.values(cart).reduce((a,b)=>a+b,0);}
+  function totalPrice(){return products.reduce((sum,p)=>sum+p.price*(cart[p.id]||0),0);}
+  function renderCart(){
+    document.getElementById("cartCount").textContent=totalItems();
+    document.getElementById("total").textContent=rupiah(totalPrice());
+    const selected=products.filter(p=>cart[p.id]);
+    if(!selected.length){cartItems.innerHTML='<div class="empty">Keranjang masih kosong.<br>Tambahkan produk dari katalog.</div>';return;}
+    cartItems.innerHTML=selected.map(p=>`
+      <div class="cart-item"><div><strong>${p.name}</strong><small>${rupiah(p.price)} / produk</small>
+      <div class="qty"><button onclick="changeQty(${p.id},-1)" aria-label="Kurangi">−</button><span>${cart[p.id]}</span><button onclick="changeQty(${p.id},1)" aria-label="Tambah">+</button></div>
+      <button class="remove" onclick="changeQty(${p.id},-${cart[p.id]})">Hapus</button></div>
+      <strong>${rupiah(p.price*cart[p.id])}</strong></div>`).join("");
+  }
+  function openDrawer(){drawer.classList.add("show");overlay.classList.add("show");}
+  function closeDrawer(){drawer.classList.remove("show");overlay.classList.remove("show");}
+  document.getElementById("openCart").addEventListener("click",openDrawer);
+  document.getElementById("closeCart").addEventListener("click",closeDrawer);
+  overlay.addEventListener("click",closeDrawer);
+  document.getElementById("checkout").addEventListener("click",()=>{
+    if(!totalItems()){alert("Keranjang masih kosong. Tambahkan produk terlebih dahulu.");return;}
+    const name=document.getElementById("buyerName").value.trim();
+    if(!name){alert("Isi nama pemesan terlebih dahulu.");document.getElementById("buyerName").focus();return;}
+    const lines=products.filter(p=>cart[p.id]).map(p=>`- ${p.name} x${cart[p.id]} = ${rupiah(p.price*cart[p.id])}`);
+    const note=document.getElementById("buyerNote").value.trim();
+    const message=`Halo admin FF Gaming Store, saya ingin memesan:\n\n${lines.join("\n")}\n\nTotal: ${rupiah(totalPrice())}\nNama: ${name}${note?`\nCatatan: ${note}`:""}\n\nMohon konfirmasi pesanan dan metode pembayaran.`;
+    // Telegram tidak mengizinkan situs biasa mengirim DM otomatis ke akun pribadi.
+    // Salin detail pesanan lalu buka profil Telegram admin untuk mengirimnya.
+    const telegramUrl=`https://t.me/${TELEGRAM_ADMIN}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(message).then(()=>{
+        alert("Detail pesanan disalin. Tempelkan pesan di chat Telegram admin.");
+        window.location.href = telegramUrl;
+      }).catch(()=>{
+        prompt("Salin detail pesanan ini, lalu kirim ke Telegram admin:",message);
+        window.location.href = telegramUrl;
+      });
+    } else {
+      prompt("Salin detail pesanan ini, lalu kirim ke Telegram admin:",message);
+      window.location.href = telegramUrl;
+    }
+  });
+  document.getElementById("year").textContent=new Date().getFullYear();
+  renderProducts();renderCart();
+</script>
+</body>
+</html>
